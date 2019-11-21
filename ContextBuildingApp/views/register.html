@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome to Roof</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./script/style.css">
+  <script src="./js/angular.min.js"></script>
+  <script src="./js/jquery-1.10.2.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/controller/common.js"></script>
+  <script src="controller/device.js" ></script>
+</head>
+<body ng-app="deviceInfo" >
+<div ng-controller="deviceCtrl">
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+            <div class="navbar-header" >
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#">IEEE P1931.1</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" ng-click="signout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+    <div class="row">
+        
+    <div class="col-sm-8" item-height="300px;">
+        
+        <h3> Welcome to the ROOF</h3>
+        <form >
+            <table width="50%">
+                <tr>
+                    <td>Device Id</td>
+                    <td><input type="text" class="form-control" ng-model="regDev.devId" required></td>
+                </tr>
+                <tr>
+                    <td>Alias Name</td>
+                    <td><input type="text" class="form-control" ng-model="regDev.aliasName" required></td>
+                </tr>
+                <tr>
+                    <td><button type="button" ng-click="regDevice()">Add Device</button></td>
+                </tr>
+            </table>
+            
+        </form>
+    </div>
+    
+    <div class="col-sm-4">
+        <div class="well">
+        <p>Device List:</p>
+        </div>
+        <div class="well" style="height:200px; overflow: scroll;">
+            <!--<ul>-->
+                <div ng-repeat="dev in devList"  >
+                    <i class="glyphicon glyphicon-stop offline " ng-if="!dev.status"></i>
+                    <i class="glyphicon glyphicon-stop online" ng-if="dev.status"></i>
+                    <a href="" ng-click="getAnalogInfo(dev.ipAddress, dev.deviceId)"> 
+                        <span ng-bind="devName = dev.aliasName==null? dev.deviceId : dev.aliasName"></span>
+                    </a>
+                </div>
+            <!--</ul>-->
+        </div>
+    </div>
+    </div>
+    <br>
+    </div>
+</div>
+<br/>
+<footer class="container">
+  <p>© Copyright 2017 . IEEE P1931.1 (ROOF computing). All Rights Reserved </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Reset Password</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/script/style.css">
+  <script src="/js/angular.min.js"></script>
+  <script src="./js/jquery-1.10.2.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/controller/common.js"></script>
+  <script src="/controller/login.js" ></script>
+</head>
+<body ng-app="deviceInfo">
+
+<div class="container" ng-controller="loginCtrl">
+
+    <nav class="navbar navbar-inverse">
+            <div class="navbar-header" >
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#">IEEE P1931.1</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="https://standards.ieee.org/develop/wg/ROOF.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            </div>
+
+        </nav>
+
+
+    <div class="col-md-5 col-md-push-4" ng-init="reset.mailId='<%- email %>';reset.token='<%- token%>'">
+        <div class="page-header">
+            <h1>Reset Password </h1>
+        </div>
+
+        <form name='resetForm'> 
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" placeholder="Email" ng-model="reset.email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Password" ng-model="reset.password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Confirm Password" ng-model="reset.confirm" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="resetForm.$invalid" ng-click="resetPass()">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<br/>
+    <footer class="container">
+    <p>© Copyright 2017 . IEEE P1931.1 (ROOF computing). All Rights Reserved</p>
+    
+    </footer>
+
+</body>
+</html>

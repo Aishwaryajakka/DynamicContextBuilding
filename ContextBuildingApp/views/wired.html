@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Roof</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/script/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/js/angular.min.js"></script>
+  <script src="/controller/common.js"></script>
+  <script src="/controller/device.js"></script>
+  <script src="/controller/wired.js"></script>
+  
+</head>
+<body ng-app="deviceInfo" >
+  <div ng-controller="wiredCtrl">
+    <div class="container" >
+      <nav class="navbar navbar-inverse">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">IEEE P1931.1</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/welcome">Home</a></li>
+            
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" ng-click="signout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          
+          <ul class="nav navbar-nav" ng-init="wiredsection= 'common'">
+            <li class="active" ng-if="wiredsection=='common'"><a href="#" >Device DashBoard</a></li>
+            <li ng-if="wiredsection!='common'"><a href="#" ng-click="changeVal('common',wiredpoints)">Device DashBoard</a></li>
+            <li class="active" ng-if="wiredsection=='wired'"><a href="#">My Context</a></li>
+            <li ng-if="wiredsection!='wired'"><a href="#" ng-click="changeVal('wired',wiredpoints)">My Context</a></li>
+            <!--li><a href="#">My Context</a></li-->
+            <li class='active' ng-if="wiredsection=='fw'"><a href="#" >Context Store</a></li>
+            <li ng-if="wiredsection!='fw'"><a href="#" ng-click="changeVal('fw',wiredpoints)">Context Store</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <br />
+    <div class="container" ng-init="devId = '<%- devId%>';ipAddr = '<%- ipAddr%>';">    
+      <div ng-controller="deviceCtrl" ng-init="getDevInfo('<%- devId%>')" class="row content" style="margin: 3px;">
+        <div >
+        <div ng-if="wiredsection=='common'"  > 
+          <!--<h4>Hello world</h4>-->
+            <div ng-include="'/html/devparams.html'"></div>
+          </div>
+          <div ng-if="wiredsection=='fw'"  > 
+            <div class="col-sm-10">
+                <div class="col-sm-9" >                           
+                            
+                        </tr> 
+                        <form >
+                          <div class="col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Store</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-sm-6">
+                            <table class="table table-borderless" >
+                                 
+                                <tr ng-repeat="data in infoData" ng-model="name">
+                                    <td>{{data.name}}</td>
+                                   
+                                   
+                                <td> <button id="add" class="btn-success" ng-click="getContext(data.name)">Download</button></td>
+                                    
+                                </tr>
+
+                               
+            
+                                
+                            </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+                          <!--<div>
+                          <ul ng-repeat="data in infoData">
+                            <li>
+                              {{data.name}}
+                              {{data.action}}
+                              
+                            </li>
+                          </ul>
+                          <button class="btn-success" ng-click="LoadInfo()">Download</button>
+                          </div>-->
+                          <!--<table class="table table-borderless" >
+                            <tr>
+                              <td ng-repeat="data in devList">STORE</td>
+                                {{data.name}}
+                                <input type='text' class="form-control" ng-model="name">
+                                <button class="btn-success" ng-click="LoadInfo()">Download</button>
+                            </tr>-->
+                        </form>      
+                        
+                    <!--</table> -->
+                                
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div ng-if="wiredsection=='wired'"  > 
+          <!--<div ng-include="'/html/wiredinput.html'"></div> -->
+          <form >
+            <div class="col-sm-9" >
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">My Context</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-6">
+                        <table class="table table-borderless" >
+                            
+                            <tr ng-repeat="data in myContextData">
+                                <td>{{data.name}}</td>
+                                
+                                
+                                <td> <button id="add" class="btn-success" ng-click="usecontext(name,data)">Use Context</button></td>
+                                
+                            </tr>
+                        </table>
+                        </div>
+                </div>
+            </div>
+            </div>
+
+            </form>
+        </div>
+
+        <div class="col-sm-2 sidenav">
+          <div >
+            <div class="well">
+              <p>Device List:</p>
+            </div>
+            <div class="well" style='height: 200px; overflow: scroll;'>
+                <!--<ul>-->
+                    <div ng-repeat="dev in devList">
+                      <i class="glyphicon glyphicon-stop offline " ng-if="!dev.status"></i>
+                      <i class="glyphicon glyphicon-stop online" ng-if="dev.status"></i>
+                      <a href="" ng-click="getAnalogInfo(dev.ipAddress, dev.deviceId)"> 
+                          <span ng-bind="devName = dev.aliasName==null? dev.deviceId : dev.aliasName"></span>
+                      </a>
+                      <i class="glyphicon glyphicon-hand-left" ng-if="dev.deviceId==devId"></i>
+                  </div>
+                <!--</ul>-->
+            </div>
+            
+          </div>
+          <div>
+            <table>
+              <tr>
+
+                <td><button id="add" class="btn-success" ng-click="register()">Add New</button></td>
+                <td><button id="add" ng-click="remove()" class="btn-danger"> Remove</button></td> 
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <!--tr>
+                <td width=80%><button id="add" ng-click="connect()" class="btn btn-primary"> Connect</button></td>
+                <td width=70%><button id="add" ng-click="send()" class="btn btn-success" ng-disabled="!connection"> Send</button></td>
+              </tr-->
+            </table>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<footer class="container">
+  <p>© Copyright 2017 . IEEE P1931.1 (ROOF computing). All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

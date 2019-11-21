@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Roof Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./script/style.css">
+  <script src="./js/angular.min.js"></script>
+  <script src="./js/jquery-1.10.2.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/controller/common.js"></script>
+  <script src="controller/login.js" ></script>
+</head>
+<body ng-app="deviceInfo">
+
+<div class="container" ng-controller="loginCtrl">
+
+    <nav class="navbar navbar-inverse">
+            <div class="navbar-header" >
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#">IEEE P1931.1</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="https://standards.ieee.org/develop/wg/ROOF.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in" ></span> Login</a></li>
+            </ul>
+            </div>
+
+        </nav>
+
+
+    <div ng-if="location=='login'" class="col-md-5 col-md-push-4">
+        <div class="page-header">
+            <h1>User Login </h1>
+        </div>
+
+        <form name='logForm'>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" placeholder="Email" ng-model="login.email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Password" required ng-model="login.password">
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="logForm.$invalid" ng-click="loginForm()">Sign In</button>
+                <span><a href="#" ng-click="changeLocation('forgotpass')">Forgot Password</a></span>
+                <span class="pull-right"><a href="#" ng-click="changeLocation('registration')">New Registration</a></span>
+            </div>
+        </form>
+    </div>   
+
+    <div ng-if="location=='forgotpass'" class="col-md-5 col-md-push-4">
+        <div class="page-header">
+            <h1>Forgot Password</h1>
+        </div>
+        <!-- Simple Login - START -->
+        <form name='forgotForm'>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" placeholder="Email" ng-model="forgot.email" required>
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="forgotForm.$invalid" ng-click="forgotpass()">Submit</button>
+                <span><a href="#">Need help?</a></span>
+                <span class="pull-right"><a href="#" ng-click="changeLocation('login')">Login</a></span>
+            </div>
+        </form>
+    </div>
+
+    <div ng-if="location=='registration'" class="col-md-5 col-md-push-4">
+        <div class="page-header">
+            <h1>User Registration </h1>
+        </div>
+
+        <form name='regForm'> 
+            
+            <div class="form-group">
+                <input type="text" class="form-control input-lg" placeholder="User Name" ng-model="reg.name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" placeholder="Email" ng-model="reg.email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Password" ng-model="reg.password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Confirm Password" ng-model="reg.confirm" required>
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="regForm.$invalid" ng-click="regUser()">Register</button>
+                <span><a href="#">Need help?</a></span>
+                <span class="pull-right"><a href="#" ng-click="changeLocation('login')">Login</a></span>
+            </div>
+        </form>
+    </div>
+      <div ng-if="location=='regconfirm'" class="col-md-5 col-md-push-4">
+        <div class="page-header">
+            <h1>User Registration </h1>
+        </div>
+
+        <form name='confirmForm'> 
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" placeholder="Email" ng-model="confirm.email" readonly>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control input-lg" placeholder="Email OTP" ng-model="confirm.otp" required>
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="confirmForm.$invalid" ng-click="confirmUser()">Confirm Email Activation</button>
+                <span>Mail delivered with confirmation code.</span>
+                <span class="pull-right"><a href="#" ng-click="resendOTP(confirm.email)">Resend confirmation code</a></span>
+            </div>
+        </form>
+    </div>
+
+    <div ng-if="location=='resetpass'" class="col-md-5 col-md-push-4">
+        <div class="page-header">
+            <h1>Reset Password </h1>
+        </div>
+
+        <form name='resetForm'> 
+            <div class="form-group">
+                <input type="text" class="form-control input-lg" placeholder="OTP" ng-model="reset.otp" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" placeholder="Email" ng-model="reset.email" readonly>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Password" ng-model="reset.password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Confirm Password" ng-model="reset.confirm" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="resetForm.$invalid" ng-click="resetPass()">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<br/>
+    <footer class="container">
+    <p>© Copyright 2017 . IEEE P1931.1 (ROOF computing). All Rights Reserved</p>
+    
+    </footer>
+
+</body>
+</html>
